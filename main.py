@@ -72,51 +72,40 @@ def write_filename_to_sheet():
     # update the first sheet with df, starting at cell A1.
     wks.set_dataframe(df, (1, 1))
 
-    # filename = ''
-    # for file in os.listdir('./original'):
-    #     if not filename:
-    #         filename = file
-    #     print(file)
 
-    # # creating a pdf file object
-    # pdfFileObj = open('./original/' + filename, 'rb')
-    #
-    # # creating a pdf reader object
-    # pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-    #
-    # # printing number of pages in pdf file
-    # print(pdfReader.numPages)
-    #
-    # # creating a page object
-    # pageObj = pdfReader.getPage(0)
-    #
-    # # extracting text from page
-    # print(pageObj.extractText())
-    #
-    # writer = PyPDF2.PdfFileWriter()
-    #
-    # start = 16
-    #
-    # end = 16
-    #
-    # output_filename = ''
-    # while start <= end:
-    #     writer.addPage(pdfReader.getPage(start))
-    #     start += 1
-    #     output_filename = "example.pdf"
-    #
-    # with open(output_filename, 'wb') as out:
-    #     writer.write(out)
-    #
-    #
-    # # closing the pdf file object
-    # pdfFileObj.close()
+def extract_page_as_new_pdf(src, start, end, out):
+    # creating a pdf file object
+    pdfFileObj = open(src, 'rb')
+    # creating a pdf reader object
+    pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+    # creating a pdf writer
+    writer = PyPDF2.PdfFileWriter()
+
+    while start <= end:
+        writer.addPage(pdfReader.getPage(start))
+        start += 1
+
+    with open(out, 'wb') as out:
+        writer.write(out)
+
+    pdfFileObj.close()
+
+
+def extract_q22():
+    index = 1
+    while index != 210:
+        extract_page_as_new_pdf(src='./renamed/' + str(index) + '.pdf',
+                                start=16, end=16, out='./q22/' + str(index) +
+                                                      '.pdf')
+        index += 1
 
 
 def main():
     # create_map()
-    write_filename_to_sheet()
+    # write_filename_to_sheet()
     # rename_files()
+    # extract_q22()
+    pass
 
 
 if __name__ == '__main__':
