@@ -1,0 +1,9 @@
+*.pdf
+renamed/
+original/
+q22/
+q24/
+*.json
+env/
+.idea/
+
