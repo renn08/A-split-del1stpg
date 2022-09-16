@@ -2,6 +2,7 @@ import pygsheets
 import pandas as pd
 import os
 import PyPDF2
+from pathlib import Path
 
 
 def write_to_sheet():
@@ -100,11 +101,33 @@ def extract_q22():
         index += 1
 
 
+def extract_q8():
+    if not os.path.isdir('q8'):
+        os.mkdir('q8')
+    index = 1
+    while index != 210:
+        extract_page_as_new_pdf(src='./renamed/' + str(index) + '.pdf',
+                                start=4, end=4, out='./q8/' + str(index) +
+                                                      '.pdf')
+        index += 1
+
+
+def combine(path):
+    merger = PyPDF2.PdfFileMerger()
+    for i in range(209):
+        name = str(i + 1) + '.pdf'
+        filepath = str(Path(path) / name)
+        merger.append(PyPDF2.PdfFileReader(open(filepath, 'rb')))
+    merger.write(str(Path(path) / 'output.pdf'))
+
+
 def main():
     # create_map()
     # write_filename_to_sheet()
     # rename_files()
     # extract_q22()
+    # extract_q8()
+    combine('q8')
     pass
 
 
